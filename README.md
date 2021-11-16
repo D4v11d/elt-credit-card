@@ -7,10 +7,10 @@
 Then...
 
 ```
-import {CreditCardComponent} from 'elt-credit-card';
+import { CreditCardComponent } from 'elt-credit-card';
 
 return (
-    <CreditCardComponent>
+    <CreditCardComponent/>
 );
 
 ```
