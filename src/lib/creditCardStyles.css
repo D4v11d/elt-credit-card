@@ -91,6 +91,7 @@ body{
  color:#dd0000;
  display: none;
  visibility: hidden;
+ padding-left: 5px;
 }
 .ccFormContainer .ccFormInput label .show{
   display: inline-block !important;
