@@ -1,33 +1,26 @@
 import React, { useState } from "react";
 import "./creditCardStyles.css";
+import PropTypes from 'prop-types';
 
-const CreditCardComponent = () => {
-
-  // Data
-  const [cardNumber, setCardNumber] = useState("");
-  const [cardHolderName, setCardHolderName] = useState("");
-  const [expirationDate, setExpirationDate] = useState("");
-  const [securityCode, setSecurityCode] = useState("");
-
-  // Errors
-  const [cardNumberError, setCardNumberError] = useState("");
-  const [nameError, setNameError] = useState("");
-  const [expirationDateError, setExpirationDateError] = useState("");
-  const [securityCodeError, setSecurityCodeError] = useState("");
-
-  // Regular expressions
-  const isMasterCardRegExp = new RegExp("^(?:5[1-5][0-6]{0,}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{0,}|27[01][0-9]|2720)[0-9]{0,}$");
-  const isVisaRegExp = new RegExp('^4[0-9]{0,16}$');
-  const isAmericanExpressRegExp = new RegExp("^3[47][0-9]{0,15}$");
+const CreditCardComponent = (props) => {
 
   // Card types
   const [isMasterCard, setIsMasterCard] = useState(false);
   const [isVisa, setIsVisa] = useState(false);
   const [isAmericanExpress, setIsAmericanExpress] = useState(false);
 
-  const errorMessage = "";
+  // Regular expressions
+  const isMasterCardRegExp = new RegExp("^(?:5[1-5][0-6]{0,}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{0,}|27[01][0-9]|2720)[0-9]{0,}$");
+  const isVisaRegExp = new RegExp('^4[0-9]{0,16}$');
+  const isAmericanExpressRegExp = new RegExp("^3[47][0-9]{0,15}$");
+
+  const [localErrorMessageArray, setLocalErrorMessageArray] = useState(["", "", "", ""]);
 
   const handleChangeCardNumber = (event) => {
+    handleCardNumberInput(event);
+  }
+
+  const handleCardNumberInput = (event) => {
     const cardNumber = event.target.value;
     let formattedCardNumber = "";
     let cardNumberWithoutSpaces = cardNumber.replace(/\s/g, "");
@@ -44,65 +37,71 @@ const CreditCardComponent = () => {
         // visa and mastercard format: 1234 1234 1234 1234
         formattedCardNumber = cardNumber.replace(/[^\d]/g, '').replace(/(.{4})/g, '$1 ').substring(0,19).trim();
       }  
-      setCardNumber(formattedCardNumber);
+      props.setCardNumber(formattedCardNumber);
     }
-      
+  }
+
+  const handleCardNumberValidation = () => {
     // validate card number length
-    if(isAmericanExpress && formattedCardNumber.length === 17)
-      setCardNumberError("");
-    else if(!isAmericanExpress && formattedCardNumber.length === 19) {
-      setCardNumberError("");
+    const cardNumberLength = props.cardNumber.length;
+    if((isAmericanExpress && cardNumberLength === 17) || (!isAmericanExpress && cardNumberLength === 19)) {
+      localErrorMessageArray[0] = "";
+      handleGetCardType();
     } else {
-      setCardNumberError("Card number is invalid");
+      localErrorMessageArray[0] = "Card number is invalid";
     }
     
-    handleSecurityCodeValidation(securityCode.length);
+    handleSecurityCodeValidation();
   }
 
   const handleChangeCardHolderName = (event) => {
     const name = event.target.value;
-    setCardHolderName(name);
-    if(name === "") {
-      setNameError("Card holder name is required");
+    props.setCardHolderName(name);
+  }
+
+  const handleCardHolderNameValidation = () => {
+    if(props.cardHolderName === "") {
+      localErrorMessageArray[1] = "Card holder name is required";
     } else {
-      setNameError("");
+      localErrorMessageArray[1] = "";
     }
+    handleSetErrorMessages();
   }
 
   const handleChangeExpirationDate = (event) => {
     const date = event.target.value;
     let formattedDate = date.replace(/[^\d]/g, '').replace(/([0-9]{2})(\d{2})/g, '$1 / $2').substring(0,7).trim();
-    setExpirationDate(formattedDate);
-    handleExpirationDateValidation(formattedDate);
+    props.setExpirationDate(formattedDate);
   }
 
 
-  const handleExpirationDateValidation = (date) => {
-    if(date.length === 7) {
+  const handleExpirationDateValidation = () => {
+    if(props.expirationDate.length === 7) {
       const currentMonth = parseInt((new Date().getMonth() + 1).toString().substr(-2));
       const currentYear = parseInt(new Date().getFullYear().toString().substr(-2));
-      let month = parseInt(date.substring(0,2));
-      let year = parseInt(date.substring(5));
-      console.log('month: ', month)
-      console.log('year: ', year)
+
+      let month = parseInt(props.expirationDate.substring(0,2));
+      let year = parseInt(props.expirationDate.substring(5));
+
       if(month > 0 && month <= 12) {
         if(year > currentYear) {
-          setExpirationDateError(""); 
+          localErrorMessageArray[2] = "";
         } else if(year === currentYear) {
           if(month >= currentMonth) {
-            setExpirationDateError("");
+            localErrorMessageArray[2] = "";
           } else {
-            setExpirationDateError("Expiration date cannot be in the past"); 
+            localErrorMessageArray[2] = "Expiration date cannot be in the past";
           }       
         } else {
-          setExpirationDateError("Expiration date cannot be in the past"); 
+          localErrorMessageArray[2] = "Expiration date cannot be in the past";
         }
       } else {
-        setExpirationDateError("Month must be between 01 and 12");
+        localErrorMessageArray[2] = "Month must be between 01 and 12";
       }
     } else {
-      setExpirationDateError("Expiration date is invalid");
+      localErrorMessageArray[2] = "Expiration date is invalid";
     }
+    handleSetErrorMessages();
   }
 
   const handleChangeSecurityCode = (event) => {
@@ -110,36 +109,40 @@ const CreditCardComponent = () => {
 
     if(event.target.validity.valid || code === "") {
       code = isAmericanExpress ? code = code.substring(0,4) : code = code.substring(0,3);  
-      setSecurityCode(code);
+      props.setSecurityCode(code);
     }
-
-    handleSecurityCodeValidation(code.length);
   }
 
-  const handleSecurityCodeValidation = (codeLength) => {
+  const handleSecurityCodeValidation = () => {
+    const codeLength = props.securityCode.length;
     if(isAmericanExpress && codeLength !== 4) {
-      setSecurityCodeError("Security code must be 4 digits");
+      localErrorMessageArray[3] = "Security code must be 4 digits"
+      handleSetErrorMessages();
       return;
     } else if(!isAmericanExpress) {
       if(codeLength !== 3) {
-        setSecurityCodeError("Security code must be 3 digits");
+        localErrorMessageArray[3] = "Security code must be 3 digits"
+        handleSetErrorMessages();
         return;
       }
     }
-    setSecurityCodeError("");
+    localErrorMessageArray[3] = "" 
+    handleSetErrorMessages();
   }
 
-  const getErrorMessage = () => {
-    return errorMessage;
+  const handleSetErrorMessages = () => {
+    setLocalErrorMessageArray(localErrorMessageArray);
+    const filteredErrors = localErrorMessageArray.filter(error => error !== "");
+    props.setErrorMessageArray(filteredErrors);
   }
 
-  const getCardType = () => {
-    if(isMasterCard.test(cardNumber)) {
-      return "mc";
-    } else if (isVisa.test(cardNumber)) {
-      return "vs";
+  const handleGetCardType = () => {
+    if(isMasterCard) {
+      props.getCardType("mc");
+    } else if (isVisa) {
+      props.getCardType("vs");
     } else {
-      return "ae";
+      props.getCardType("ae");
     }
   }
 
@@ -158,18 +161,19 @@ const CreditCardComponent = () => {
         <div className="ccFormContainer">
           <div className="ccFormInput">
             <input type="text" id="cardNumber" 
-            required value={cardNumber} onChange={handleChangeCardNumber}/>
+            required value={props.cardNumber} onChange={handleChangeCardNumber} onBlur={handleCardNumberValidation}/>
             <label htmlFor="cardNumber">
               Card Number
-              <span className="ccInputWarning show">{cardNumberError}</span>
+              <span className="ccInputWarning show">{localErrorMessageArray[0]}</span>
             </label>
           </div>
 
           <div className="ccFormInput">
-            <input type="text" id="cardName" required value={cardHolderName} onChange={handleChangeCardHolderName}/>
+            <input type="text" id="cardName" required value={props.cardHolderName} onChange={handleChangeCardHolderName}
+            onBlur={handleCardHolderNameValidation}/>
             <label htmlFor="cardName">
               Name on the Card
-              <span className="ccInputWarning show">{nameError}</span>
+              <span className="ccInputWarning show">{localErrorMessageArray[1]}</span>
             </label>
             <div className="ccFormInfoMark">?</div>
             <div className="ccFormInfo">Name of the Card Holder</div>
@@ -177,22 +181,22 @@ const CreditCardComponent = () => {
 
           <div className="w50pl">
             <div className="ccFormInput">
-              <input type="text" id="cardExp" required value={expirationDate} 
-              onChange={handleChangeExpirationDate}/>
+              <input type="text" id="cardExp" required value={props.expirationDate} 
+              onChange={handleChangeExpirationDate} onBlur={handleExpirationDateValidation}/>
               <label htmlFor="cardExp">
                 Exp (MM / YY)
-                <span className="ccInputWarning show"> {expirationDateError}</span>
+                <span className="ccInputWarning show"> {localErrorMessageArray[2]}</span>
               </label>
             </div>
           </div>
 
           <div className="w50pr">   
             <div className="ccFormInput">
-              <input type="text" pattern="[0-9]{0,}"  id="cardSecCode" required
-              value={securityCode} onChange={handleChangeSecurityCode}/>
+              <input type="text" pattern="[0-9]{0,}" id="cardSecCode" required
+              value={props.securityCode} onChange={handleChangeSecurityCode} onBlur={handleSecurityCodeValidation}/>
               <label htmlFor="cardSecCode">
                 Security Code
-                <span className="ccInputWarning show"> {securityCodeError}</span>
+                <span className="ccInputWarning show"> {localErrorMessageArray[3]}</span>
               </label>
               <div className="ccFormInfoMark">?</div>
               <div className="ccFormInfo">
@@ -204,6 +208,21 @@ const CreditCardComponent = () => {
       </div>
     </div>
   );
+};
+
+CreditCardComponent.propTypes = {
+  cardNumber: PropTypes.string,
+  setCardNumber: PropTypes.func,
+  cardHolderName: PropTypes.string,
+  setCardHolderName: PropTypes.func,
+  expirationDate: PropTypes.string,
+  setExpirationDate: PropTypes.func,
+  securityCode: PropTypes.string,
+  setSecurityCode: PropTypes.func,
+  errorMessageArray: PropTypes.array,
+  setErrorMessageArray: PropTypes.func,
+  getCardType: PropTypes.func,
+  getErrorMessages: PropTypes.func,
 };
 
 export default CreditCardComponent;

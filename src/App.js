@@ -1,9 +1,9 @@
 import './App.css';
-import CreditCardComponent from './lib/CreditCardComponent';
+import CreditCardContainer from './lib/CreditCardContainer';
 
 function App() {
   return (
-    <CreditCardComponent/>
+    <CreditCardContainer/>
   );
 }
 
