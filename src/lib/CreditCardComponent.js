@@ -138,11 +138,11 @@ const CreditCardComponent = (props) => {
 
   const handleGetCardType = () => {
     if(isMasterCard) {
-      props.getCardType("mc");
+      props.getCardType("mastercard");
     } else if (isVisa) {
-      props.getCardType("vs");
+      props.getCardType("visa");
     } else {
-      props.getCardType("ae");
+      props.getCardType("amex");
     }
   }
 
