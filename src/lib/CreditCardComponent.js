@@ -48,7 +48,7 @@ const CreditCardComponent = (props) => {
       localErrorMessageArray[0] = "";
       handleGetCardType();
     } else {
-      localErrorMessageArray[0] = "Card number is invalid";
+      localErrorMessageArray[0] = props.invalidNumberError;
     }
     
     handleSecurityCodeValidation();
@@ -61,7 +61,7 @@ const CreditCardComponent = (props) => {
 
   const handleCardHolderNameValidation = () => {
     if(props.cardHolderName === "") {
-      localErrorMessageArray[1] = "Card holder name is required";
+      localErrorMessageArray[1] = props.invalidNameError;
     } else {
       localErrorMessageArray[1] = "";
     }
@@ -90,16 +90,16 @@ const CreditCardComponent = (props) => {
           if(month >= currentMonth) {
             localErrorMessageArray[2] = "";
           } else {
-            localErrorMessageArray[2] = "Expiration date cannot be in the past";
+            localErrorMessageArray[2] = props.expiredCardErrorx;
           }       
         } else {
-          localErrorMessageArray[2] = "Expiration date cannot be in the past";
+          localErrorMessageArray[2] = props.expiredCardError;
         }
       } else {
-        localErrorMessageArray[2] = "Month must be between 01 and 12";
+        localErrorMessageArray[2] = props.invalidMonthError;
       }
     } else {
-      localErrorMessageArray[2] = "Expiration date is invalid";
+      localErrorMessageArray[2] = props.invalidDateError;
     }
     handleSetErrorMessages();
   }
@@ -116,12 +116,12 @@ const CreditCardComponent = (props) => {
   const handleSecurityCodeValidation = () => {
     const codeLength = props.securityCode.length;
     if(isAmericanExpress && codeLength !== 4) {
-      localErrorMessageArray[3] = "Security code must be 4 digits"
+      localErrorMessageArray[3] = props.AECodeError;
       handleSetErrorMessages();
       return;
     } else if(!isAmericanExpress) {
       if(codeLength !== 3) {
-        localErrorMessageArray[3] = "Security code must be 3 digits"
+        localErrorMessageArray[3] = props.nonAECodeError;
         handleSetErrorMessages();
         return;
       }
@@ -150,7 +150,7 @@ const CreditCardComponent = (props) => {
     <div className="text-Container">
       <div className="ccContainer">
         <div className="ccContainerTitle">
-          <div className="ccTitle">Card Content Here</div>
+          <div className="ccTitle">{props.title}</div>
           <div className="cardTypes">
             <div className={`img-mc ${isMasterCard? "ccColor" : ""}`} alt="mc"/>
             <div className={`img-vs ${isVisa? "ccColor" : ""}`} alt="vs"/>
@@ -163,8 +163,8 @@ const CreditCardComponent = (props) => {
             <input type="text" id="cardNumber" 
             required value={props.cardNumber} onChange={handleChangeCardNumber} onBlur={handleCardNumberValidation}/>
             <label htmlFor="cardNumber">
-              Card Number
-              <span className="ccInputWarning show">{localErrorMessageArray[0]}</span>
+              {props.numberLabel}
+              <span className="ccInputWarning">{localErrorMessageArray[0]}</span>
             </label>
           </div>
 
@@ -172,11 +172,11 @@ const CreditCardComponent = (props) => {
             <input type="text" id="cardName" required value={props.cardHolderName} onChange={handleChangeCardHolderName}
             onBlur={handleCardHolderNameValidation}/>
             <label htmlFor="cardName">
-              Name on the Card
-              <span className="ccInputWarning show">{localErrorMessageArray[1]}</span>
+              {props.nameLabel}
+              <span className="ccInputWarning">{localErrorMessageArray[1]}</span>
             </label>
             <div className="ccFormInfoMark">?</div>
-            <div className="ccFormInfo">Name of the Card Holder</div>
+            <div className="ccFormInfo">{props.cardNameInfo}</div>
           </div>
 
           <div className="w50pl">
@@ -184,8 +184,8 @@ const CreditCardComponent = (props) => {
               <input type="text" id="cardExp" required value={props.expirationDate} 
               onChange={handleChangeExpirationDate} onBlur={handleExpirationDateValidation}/>
               <label htmlFor="cardExp">
-                Exp (MM / YY)
-                <span className="ccInputWarning show"> {localErrorMessageArray[2]}</span>
+                {props.dateLabel}
+                <span className="ccInputWarning"> {localErrorMessageArray[2]}</span>
               </label>
             </div>
           </div>
@@ -195,12 +195,15 @@ const CreditCardComponent = (props) => {
               <input type="text" pattern="[0-9]{0,}" id="cardSecCode" required
               value={props.securityCode} onChange={handleChangeSecurityCode} onBlur={handleSecurityCodeValidation}/>
               <label htmlFor="cardSecCode">
-                Security Code
-                <span className="ccInputWarning show"> {localErrorMessageArray[3]}</span>
+                {props.codeLabel}
+                <span className="ccInputWarning"> {localErrorMessageArray[3]}</span>
               </label>
               <div className="ccFormInfoMark">?</div>
               <div className="ccFormInfo">
-                3 Digit number in the back of the card
+                {isAmericanExpress ? 
+                  <span>{props.AECodeError}</span> :
+                  <span>{props.nonAECodeError}</span>
+                }
               </div>
             </div>
           </div>
@@ -223,6 +226,26 @@ CreditCardComponent.propTypes = {
   setErrorMessageArray: PropTypes.func,
   getCardType: PropTypes.func,
   getErrorMessages: PropTypes.func,
+
+  title: PropTypes.string,
+  numberLabel: PropTypes.string,
+  nameLabel: PropTypes.string,
+  dateLabel: PropTypes.string,
+  codeLabel: PropTypes.string,
+
+  AECodeInfo: PropTypes.string,
+  nonAECodeInfo: PropTypes.string,
+  cardNameInfo: PropTypes.string,
+
+  invalidNumberError: PropTypes.string,
+  invalidNameError: PropTypes.string,
+
+  expiredCardError: PropTypes.string,
+  invalidMonthError: PropTypes.string,
+  invalidDateError: PropTypes.string,
+
+  AECodeError: PropTypes.string,
+  nonAECodeError: PropTypes.string,
 };
 
 export default CreditCardComponent;

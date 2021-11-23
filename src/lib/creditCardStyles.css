@@ -1,31 +1,31 @@
-body{
-  background-color:#efefef;
+body {
+  background-color: #efefef;
   font-family: Helvetica, Arial, sans-serif;
 }
-.text-Container{
-  width: 600px;  
+.text-Container {
+  width: 600px;
   height: auto;
-  margin:0px auto
+  margin: 0px auto;
 }
-.ccContainer{
-  border:1px solid #bcbcbc;
+.ccContainer {
+  border: 1px solid #bcbcbc;
   display: block;
   height: auto;
   border-radius: 4px;
   /* padding:10px; */
 }
-.ccContainerTitle{
+.ccContainerTitle {
   border-bottom: 1px solid #bcbcbc;
   font-weight: bold;
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
-  padding:5px;
+  padding: 5px;
   box-sizing: border-box;
   min-height: 48px;
 }
-.cardTypes{
+.cardTypes {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -33,49 +33,49 @@ body{
   width: 100%;
   padding: 3px;
 }
-.ccTitle{
+.ccTitle {
   white-space: nowrap;
   width: auto;
 }
-.cardTypes div{
+.cardTypes div {
   height: 30px;
   margin: 3px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border-radius: 5px;
-  filter:grayscale(100);
-  opacity:.5;
+  filter: grayscale(100);
+  opacity: 0.5;
   width: 46px;
 }
-.cardTypes div :last-child{
-  margin:0 0 0 3px;
+.cardTypes div :last-child {
+  margin: 0 0 0 3px;
 }
 
-.cardTypes .ccColor{
-  filter:grayscale(0);
-  opacity:1;
+.cardTypes .ccColor {
+  filter: grayscale(0);
+  opacity: 1;
 }
 
-.ccFormContainer{
-  padding:5px;
+.ccFormContainer {
+  padding: 5px;
   display: flex;
   flex-wrap: wrap;
-  background-color:rgba(0,0,0,.05);
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
-.ccFormContainer .w50pl{
+.ccFormContainer .w50pl {
   width: calc(50% - 5px);
   margin-right: 5px;
 }
-.ccFormContainer .w50pr{
+.ccFormContainer .w50pr {
   width: calc(50% - 5px);
   margin-left: 5px;
 }
 
-.ccFormContainer .ccFormInput{
+.ccFormContainer .ccFormInput {
   position: relative;
   width: 100%;
   line-height: 44px;
-  padding-top:20px;
+  padding-top: 20px;
 }
 .ccFormContainer .ccFormInput label {
   position: absolute;
@@ -85,18 +85,14 @@ body{
   color: #6d6d6d;
   transition: 0.2s all;
   cursor: text;
-} 
-.ccFormContainer .ccFormInput label .ccInputWarning{
- font-size: .8em;
- color:#dd0000;
- display: none;
- visibility: hidden;
- padding-left: 5px;
 }
-.ccFormContainer .ccFormInput label .show{
-  display: inline-block !important;
-  visibility: visible !important;
+.ccFormContainer .ccFormInput label .ccInputWarning {
+  font-size: 0.8em;
+  color: #dd0000;
+  display: inline-block;
+  padding-left: 5px;
 }
+
 .ccFormContainer .ccFormInput input {
   width: 100%;
   height: 36px;
@@ -118,71 +114,71 @@ body{
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
-.ccFormContainer .ccFormInput input:focus~label {
+.ccFormContainer .ccFormInput input:focus ~ label {
   font-size: 14px;
   top: -12px;
   color: #2b2b2b;
 }
 
-.ccFormContainer .ccFormInput input:valid~label {
+.ccFormContainer .ccFormInput input:valid ~ label {
   font-size: 14px;
   top: -12px;
   color: #2b2b2b;
 }
 
-.ccFormInput .ccFormInfoMark{
+.ccFormInput .ccFormInfoMark {
   width: 20px;
   height: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  position:absolute;
-  top:30px;
-  right:5px;
-  border:2px solid #6d6d6d;
-  color:#6d6d6d;
+  position: absolute;
+  top: 30px;
+  right: 5px;
+  border: 2px solid #6d6d6d;
+  color: #6d6d6d;
   border-radius: 50%;
   cursor: pointer;
   font-weight: bold;
-  font-size: .9em;
-  visibility:visible;
+  font-size: 0.9em;
+  visibility: visible;
 }
 
-.ccFormInput .ccFormInfo{
+.ccFormInput .ccFormInfo {
   width: 200px;
   height: 50px;
-  padding:5px;
+  padding: 5px;
   line-height: 105%;
   display: flex;
   justify-content: center;
   align-items: center;
-  position:absolute;
+  position: absolute;
   top: calc(50% - 25px);
-  right:38px;
-  border:2px solid #9a9a9a;
-  color:#6d6d6d;
+  right: 38px;
+  border: 2px solid #9a9a9a;
+  color: #6d6d6d;
   border-radius: 4px;
   cursor: pointer;
-  font-size: .9em;
+  font-size: 0.9em;
   z-index: 9000;
-  background-color:#fefefe;
+  background-color: #fefefe;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 
-  visibility:hidden;
+  visibility: hidden;
 }
-.ccFormInput .ccFormInfo::after{
+.ccFormInput .ccFormInfo::after {
   content: "";
   display: block;
-  position:absolute;
-  right:-10px;
-  width: 0; 
-  height: 0; 
+  position: absolute;
+  right: -10px;
+  width: 0;
+  height: 0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-left: 10px solid #9a9a9a;  
+  border-left: 10px solid #9a9a9a;
 }
-.ccFormInfoMark:hover + .ccFormInfo{
-  visibility:visible;
+.ccFormInfoMark:hover + .ccFormInfo {
+  visibility: visible;
 }
 
 .img-mc {

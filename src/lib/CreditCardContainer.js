@@ -23,6 +23,25 @@ const CreditCardContainer = () => {
   return (
     <>
     <CreditCardComponent
+      title="Card Content Here"
+      numberLabel="Card Number"
+
+      nameLabel="Name on the Card"
+      dateLabel="Exp (MM / YY)"
+      codeLabel="Security Code"
+    
+      cardNameInfo="Name of the Card Holder"
+      AECodeInfo="4 digit number in the front of the card"
+      nonAECodeInfo="3 digit number in the back of the card"
+    
+      invalidNumberError="Card number is invalid"
+      invalidNameError="Card holder name is required"
+      expiredCardError="Expiration date cannot be in the past"
+      invalidMonthError="Month must be between 01 and 12"
+      invalidDateError="Expiration date is invalid"
+      AECodeError="Security code must be 4 digits"
+      nonAECodeError="Security code must be 3 digits"
+
       cardNumber={cardNumber} setCardNumber={setCardNumber} cardHolderName={cardHolderName} 
       setCardHolderName={setCardHolderName} expirationDate={expirationDate} setExpirationDate={setExpirationDate}
       securityCode={securityCode} setSecurityCode={setSecurityCode} errorMessageArray={errorMessageArray}
