@@ -46,7 +46,7 @@ const CreditCardComponent = (props) => {
     const cardNumberLength = props.cardNumber.length;
     if((isAmericanExpress && cardNumberLength === 17) || (!isAmericanExpress && cardNumberLength === 19)) {
       localErrorMessageArray[0] = "";
-      handleGetCardType();
+      handleSetCardType();
     } else {
       localErrorMessageArray[0] = props.invalidNumberError;
     }
@@ -90,7 +90,7 @@ const CreditCardComponent = (props) => {
           if(month >= currentMonth) {
             localErrorMessageArray[2] = "";
           } else {
-            localErrorMessageArray[2] = props.expiredCardErrorx;
+            localErrorMessageArray[2] = props.expiredCardError;
           }       
         } else {
           localErrorMessageArray[2] = props.expiredCardError;
@@ -136,13 +136,13 @@ const CreditCardComponent = (props) => {
     props.setErrorMessageArray(filteredErrors);
   }
 
-  const handleGetCardType = () => {
+  const handleSetCardType = () => {
     if(isMasterCard) {
-      props.getCardType("mastercard");
+      props.setCardType("mastercard");
     } else if (isVisa) {
-      props.getCardType("visa");
+      props.setCardType("visa");
     } else {
-      props.getCardType("amex");
+      props.setCardType("amex");
     }
   }
 
