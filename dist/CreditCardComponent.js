@@ -33,7 +33,7 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-const CreditCardComponent = props => {
+const CreditCardComponent = /*#__PURE__*/(0, _react.forwardRef)((props, ref) => {
   // Card types
   const [isMasterCard, setIsMasterCard] = (0, _react.useState)(false);
   const [isVisa, setIsVisa] = (0, _react.useState)(false);
@@ -177,6 +177,14 @@ const CreditCardComponent = props => {
     }
   };
 
+  (0, _react.useImperativeHandle)(ref, () => ({
+    triggerValidations() {
+      handleCardNumberValidation();
+      handleExpirationDateValidation();
+      handleCardHolderNameValidation();
+    }
+
+  }));
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "text-Container"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -264,8 +272,7 @@ const CreditCardComponent = props => {
   }, "?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "ccFormInfo"
   }, isAmericanExpress ? /*#__PURE__*/_react.default.createElement("span", null, props.AECodeError) : /*#__PURE__*/_react.default.createElement("span", null, props.nonAECodeError)))))));
-};
-
+});
 CreditCardComponent.propTypes = {
   cardNumber: _propTypes.default.string,
   setCardNumber: _propTypes.default.func,

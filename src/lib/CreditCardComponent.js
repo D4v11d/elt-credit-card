@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, forwardRef, useImperativeHandle } from "react";
 import "./creditCardStyles.css";
 import PropTypes from 'prop-types';
 
-const CreditCardComponent = (props) => {
+const CreditCardComponent = forwardRef((props, ref) => {
 
   // Card types
   const [isMasterCard, setIsMasterCard] = useState(false);
@@ -146,6 +146,17 @@ const CreditCardComponent = (props) => {
     }
   }
 
+  useImperativeHandle(ref, () => ({
+    
+    triggerValidations() {
+      handleCardNumberValidation();
+      handleExpirationDateValidation();
+      handleCardHolderNameValidation();
+    }
+
+  }));
+  
+
   return (
     <div className="text-Container">
       <div className="ccContainer">
@@ -211,7 +222,7 @@ const CreditCardComponent = (props) => {
       </div>
     </div>
   );
-};
+});
 
 CreditCardComponent.propTypes = {
   cardNumber: PropTypes.string,

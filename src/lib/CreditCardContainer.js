@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CreditCardComponent from "./CreditCardComponent";
 
 const CreditCardContainer = () => {
@@ -12,6 +12,8 @@ const CreditCardContainer = () => {
   // Errors
   const [errorMessageArray, setErrorMessageArray] = useState([]);
 
+  const childRef = useRef();
+
   useEffect(() => {
     console.log("errors: ", errorMessageArray);
   }, [errorMessageArray])
@@ -23,6 +25,7 @@ const CreditCardContainer = () => {
   return (
     <>
     <CreditCardComponent
+      ref={childRef}
       title="Card Content Here"
       numberLabel="Card Number"
 
@@ -47,6 +50,7 @@ const CreditCardContainer = () => {
       securityCode={securityCode} setSecurityCode={setSecurityCode} errorMessageArray={errorMessageArray}
       setErrorMessageArray={setErrorMessageArray} getCardType={getCardType}
     />
+    <button onClick={() => childRef.current.triggerValidations()}>trigger validation!</button>
     </>
   );
 };

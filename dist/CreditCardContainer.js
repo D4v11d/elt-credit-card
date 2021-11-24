@@ -25,6 +25,7 @@ const CreditCardContainer = () => {
   const [securityCode, setSecurityCode] = (0, _react.useState)(""); // Errors
 
   const [errorMessageArray, setErrorMessageArray] = (0, _react.useState)([]);
+  const childRef = (0, _react.useRef)();
   (0, _react.useEffect)(() => {
     console.log("errors: ", errorMessageArray);
   }, [errorMessageArray]);
@@ -34,6 +35,7 @@ const CreditCardContainer = () => {
   };
 
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_CreditCardComponent.default, {
+    ref: childRef,
     title: "Card Content Here",
     numberLabel: "Card Number",
     nameLabel: "Name on the Card",
@@ -60,7 +62,9 @@ const CreditCardContainer = () => {
     errorMessageArray: errorMessageArray,
     setErrorMessageArray: setErrorMessageArray,
     getCardType: getCardType
-  }));
+  }), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => childRef.current.triggerValidations()
+  }, "trigger validation!"));
 };
 
 var _default = CreditCardContainer;
