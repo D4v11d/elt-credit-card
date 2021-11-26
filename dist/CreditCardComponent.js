@@ -271,7 +271,7 @@ const CreditCardComponent = /*#__PURE__*/(0, _react.forwardRef)((props, ref) => 
     className: "ccFormInfoMark"
   }, "?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "ccFormInfo"
-  }, isAmericanExpress ? /*#__PURE__*/_react.default.createElement("span", null, props.AECodeError) : /*#__PURE__*/_react.default.createElement("span", null, props.nonAECodeError)))))));
+  }, isAmericanExpress ? /*#__PURE__*/_react.default.createElement("span", null, props.AECodeInfo) : /*#__PURE__*/_react.default.createElement("span", null, props.nonAECodeInfo)))))));
 });
 CreditCardComponent.propTypes = {
   cardNumber: _propTypes.default.string,
@@ -284,8 +284,8 @@ CreditCardComponent.propTypes = {
   setSecurityCode: _propTypes.default.func,
   errorMessageArray: _propTypes.default.array,
   setErrorMessageArray: _propTypes.default.func,
-  getCardType: _propTypes.default.func,
   getErrorMessages: _propTypes.default.func,
+  setCardType: _propTypes.default.func,
   title: _propTypes.default.string,
   numberLabel: _propTypes.default.string,
   nameLabel: _propTypes.default.string,

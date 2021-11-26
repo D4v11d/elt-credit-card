@@ -212,8 +212,8 @@ const CreditCardComponent = forwardRef((props, ref) => {
               <div className="ccFormInfoMark">?</div>
               <div className="ccFormInfo">
                 {isAmericanExpress ? 
-                  <span>{props.AECodeError}</span> :
-                  <span>{props.nonAECodeError}</span>
+                  <span>{props.AECodeInfo}</span> :
+                  <span>{props.nonAECodeInfo}</span>
                 }
               </div>
             </div>
@@ -235,8 +235,8 @@ CreditCardComponent.propTypes = {
   setSecurityCode: PropTypes.func,
   errorMessageArray: PropTypes.array,
   setErrorMessageArray: PropTypes.func,
-  getCardType: PropTypes.func,
   getErrorMessages: PropTypes.func,
+  setCardType: PropTypes.func,
 
   title: PropTypes.string,
   numberLabel: PropTypes.string,
