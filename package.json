@@ -1,6 +1,6 @@
 {
   "name": "elt-credit-card",
-  "version": "0.2.7",
+  "version": "0.2.6",
   "private": false,
   "description": "ELeadertTech credit card management component",
   "author": "David Jimenez",
@@ -60,7 +60,7 @@
     "win-node-env": "^0.4.0"
   },
   "peerDependencies": {
-    "react": "^16.11.0",
-    "react-dom": "16.11.0"
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   }
 }
